@@ -1,10 +1,9 @@
-// The hub — real screenshots as the sleeping panels; phase 2 wakes one living
-// iframe at a time (behind LIVE_PANELS, once the games' frame-ancestors admit
-// the hub). Fills the muster strip from the public count doors when they open.
-// Zero dependencies.
+// The hub — real screenshots as the sleeping panels; hovering a panel wakes it
+// into the game's LIVE front page (one living iframe at a time; the others
+// sleep back to their stills). The muster strip fills from the public count
+// doors when they open. Zero dependencies.
 
-// phase 2 flips this true once the games' CSP admits the hub
-const LIVE_PANELS = false;
+const LIVE_PANELS = true; // the games' frame-ancestors admit the hub
 
 const steads = [...document.querySelectorAll('.stead')];
 let awake = null; // the one living iframe's host element
@@ -14,27 +13,34 @@ function sleep(el) {
   if (frame) frame.remove();
   el.querySelector('img').style.display = '';
   const chip = el.querySelector('.wake');
-  if (chip) chip.textContent = LIVE_PANELS ? 'tap to wake' : 'enter';
+  if (chip) chip.textContent = 'hover to visit';
 }
 
 function wake(el) {
-  if (awake === el) return;
+  if (!LIVE_PANELS || awake === el) return;
   if (awake) sleep(awake);
   awake = el;
+  const img = el.querySelector('img');
   const frame = document.createElement('iframe');
   frame.src = el.dataset.url;
-  frame.loading = 'lazy';
   frame.title = el.dataset.game + ' — live';
+  // the still holds the frame until the live page has actually painted
+  frame.addEventListener('load', () => {
+    if (awake === el) img.style.display = 'none';
+  });
   el.querySelector('.port').appendChild(frame);
-  el.querySelector('img').style.display = 'none';
   const chip = el.querySelector('.wake');
-  if (chip) chip.textContent = 'live — click PLAY to enter';
+  if (chip) chip.textContent = 'live — PLAY to enter';
 }
 
 for (const el of steads) {
+  el.addEventListener('pointerenter', (e) => {
+    if (e.pointerType === 'mouse') wake(el); // hover on desktop
+  });
   el.querySelector('.port').addEventListener('click', () => {
-    if (LIVE_PANELS) wake(el);
-    else window.location.href = el.dataset.url; // the panel is a door
+    // touch (no hover): first tap wakes; a sleeping panel is always a door
+    if (awake !== el && LIVE_PANELS && matchMedia('(hover: none)').matches) wake(el);
+    else if (awake !== el) window.location.href = el.dataset.url;
   });
 }
 
@@ -52,7 +58,7 @@ const MUSTER_DOORS = [
     const week = all.reduce((s, d) => s + ((d && d.week) || 0), 0);
     if (week > 0) {
       document.getElementById('muster').innerHTML =
-        '<b>' + week + '</b> settler' + (week === 1 ? '' : 's') + ' across the steads this week';
+        '<b>' + week + '</b> settlers across the steads this week';
     }
   } catch { /* the strip simply stays quiet */ }
 })();
