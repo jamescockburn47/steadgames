@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>The Steads — three worlds drawn entirely by code</title>
-  <meta name="description" content="Three worlds drawn entirely by code — a moor, a sea, a planet. Moorstead, Saltstead and Marsstead: nothing to download, no ads." />
+  <meta name="description" content="Three worlds drawn entirely by code — a moor, the seas, a planet — each alive with AI characters you can talk to. Moorstead, Saltstead and Marsstead: free, no downloads, no ads." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='5' cy='11' r='4' fill='%239ec27a'/%3E%3Ccircle cx='11' cy='5' r='4' fill='%23d88a5a'/%3E%3Ccircle cx='11' cy='11' r='4' fill='%235aa7d8'/%3E%3C/svg%3E" />
   <style>
     :root {
@@ -24,9 +24,9 @@
     @media (max-width: 900px) { .steads { grid-template-columns: 1fr; } }
     .stead { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
       overflow: hidden; display: flex; flex-direction: column; }
-    .stead .port { position: relative; aspect-ratio: 16 / 10; background: #000; }
-    .stead .port canvas, .stead .port iframe { position: absolute; inset: 0;
-      width: 100%; height: 100%; border: 0; display: block; }
+    .stead .port { position: relative; aspect-ratio: 16 / 10; background: #000; cursor: pointer; }
+    .stead .port img, .stead .port iframe { position: absolute; inset: 0;
+      width: 100%; height: 100%; border: 0; display: block; object-fit: cover; }
     .stead .port .wake { position: absolute; right: 10px; bottom: 8px; font-size: 11px;
       color: rgba(255,255,255,.75); background: rgba(0,0,0,.45); padding: 2px 9px;
       border-radius: 10px; pointer-events: none; }
@@ -51,14 +51,14 @@
   <div class="wrap">
     <header>
       <h1>THE STEADS</h1>
-      <p class="credo">Three worlds drawn entirely by code &mdash; a moor, a sea, a planet.
-        Nothing to download, no ads, owned by nobody&rsquo;s art department.</p>
+      <p class="credo">Three worlds drawn entirely by code &mdash; a moor, the seas, a planet &mdash;
+        each alive with AI characters you can talk to. Free, no downloads, no ads.</p>
       <div class="muster" id="muster"></div>
     </header>
 
     <div class="steads">
       <div class="stead" id="moor" data-game="moorstead" data-url="https://www.moorstead.app">
-        <div class="port"><canvas></canvas><span class="wake">tap to wake</span></div>
+        <div class="port"><img src="/shots/moorstead.jpg" alt="Moorstead — a steam train crossing the snowbound parish" /><span class="wake">enter</span></div>
         <div class="body">
           <h2>MOORSTEAD</h2>
           <p class="tagline">t&rsquo; moor knows thy name</p>
@@ -71,19 +71,19 @@
       </div>
 
       <div class="stead" id="salt" data-game="saltstead" data-url="https://www.saltstead.app">
-        <div class="port"><canvas></canvas><span class="wake">tap to wake</span></div>
+        <div class="port"><img src="/shots/saltstead.jpg" alt="Saltstead — tall ships on a moonlit sea" /><span class="wake">enter</span></div>
         <div class="body">
           <h2>SALTSTEAD</h2>
           <p class="tagline">the sea never signed the treaty</p>
           <p class="sum">A sea-rover sandbox on the real Earth &mdash; sail anywhere, under the
             King&rsquo;s colours or the black flag. Storms, broadsides, legendary beasts,
-            and ports that remember you. Drawn entirely by code.</p>
+            a crew that talks back, and ports that remember you. Drawn entirely by code.</p>
           <a class="play" href="https://www.saltstead.app">PLAY</a>
         </div>
       </div>
 
       <div class="stead" id="mars" data-game="marsstead" data-url="https://www.marsstead.app">
-        <div class="port"><canvas></canvas><span class="wake">tap to wake</span></div>
+        <div class="port"><img src="/shots/marsstead.jpg" alt="Marsstead — a settler and rover on the red dunes, VESPER on the radio" /><span class="wake">enter</span></div>
         <div class="body">
           <h2>MARSSTEAD</h2>
           <p class="tagline">the sand kept its secrets for four billion years</p>

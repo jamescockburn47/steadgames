@@ -1,8 +1,7 @@
 // verify-hub — the family front's headless gate: the copy is present, the
-// sibling links are right, and the three poster painters run against a
-// recording 2D-context stub without throwing (pure, no browser).
-import { readFileSync } from 'node:fs';
-import { PAINTERS, prng } from '../src/posters.js';
+// sibling links are right, and the three real screenshots exist and are
+// substantial. Screenshots are reshot with Marsstead's scripts/shoot-family.mjs.
+import { readFileSync, statSync } from 'node:fs';
 
 let pass = 0, fail = 0;
 const check = (name, cond) => { if (cond) { pass++; } else { fail++; console.error('  FAIL:', name); } };
@@ -10,7 +9,10 @@ const check = (name, cond) => { if (cond) { pass++; } else { fail++; console.err
 // ---- the page carries the words -------------------------------------------
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 check('title names the family', html.includes('The Steads'));
-check('credo present', html.includes('a moor, a sea, a planet'));
+check('credo: the seas (not a sea)', html.includes('a moor, the seas, a planet') && !html.includes('a moor, a sea,'));
+check('credo: AI characters', html.includes('AI characters you can talk to'));
+check('credo: free, no downloads, no ads', html.includes('Free, no downloads, no ads'));
+check('the art-department line is gone', !/art department/i.test(html));
 for (const [name, tagline] of [
   ['MOORSTEAD', 'moor knows thy name'],
   ['SALTSTEAD', 'the sea never signed the treaty'],
@@ -22,32 +24,15 @@ for (const url of ['https://www.moorstead.app', 'https://www.saltstead.app', 'ht
   check(`links ${url}`, html.split(url).length >= 3); // play button + footer at least
 }
 check('every panel has a PLAY door', (html.match(/class="play"/g) || []).length === 3);
-check('no binary assets referenced', !/\.(png|jpg|jpeg|webp|gif|mp3|woff)/i.test(html));
 
-// ---- deterministic prng -----------------------------------------------------
-const a = prng(7), b = prng(7);
-check('prng deterministic', a() === b() && a() === b());
-check('prng in [0,1)', [...Array(50)].every(() => { const v = a(); return v >= 0 && v < 1; }));
-
-// ---- the painters run headlessly against a recording stub ------------------
-function stubCtx(calls) {
-  const grad = { addColorStop: () => {} };
-  return new Proxy({}, {
-    get: (t, k) => {
-      if (k === 'createLinearGradient') return () => grad;
-      return (...args) => { calls.push(String(k)); return undefined; };
-    },
-    set: () => true,
-  });
+// ---- the real screenshots are in place -------------------------------------
+for (const game of ['moorstead', 'saltstead', 'marsstead']) {
+  check(`panel img wired: ${game}`, html.includes(`/shots/${game}.jpg`));
+  let size = 0;
+  try { size = statSync(new URL(`../shots/${game}.jpg`, import.meta.url)).size; } catch { /* missing */ }
+  check(`shot exists + substantial: ${game}`, size > 20000);
 }
-for (const [game, painter] of Object.entries(PAINTERS)) {
-  const calls = [];
-  let threw = false;
-  try { painter(stubCtx(calls), 640, 400); } catch (e) { threw = true; console.error(`  ${game}:`, e.message); }
-  check(`${game} painter runs clean`, !threw);
-  check(`${game} painter actually draws`, calls.filter((c) => c === 'fill' || c === 'fillRect' || c === 'stroke').length > 5);
-}
-check('three painters, one per stead', Object.keys(PAINTERS).length === 3);
+check('every shot has alt text', (html.match(/<img [^>]*alt="/g) || []).length === 3);
 
 console.log(`\nverify-hub: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);
