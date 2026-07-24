@@ -24,9 +24,10 @@ function wake(el) {
   const frame = document.createElement('iframe');
   frame.src = el.dataset.url;
   frame.title = el.dataset.game + ' — live';
-  // the still holds the frame until the live page has actually painted
+  // the still holds the frame until the live page has actually painted —
+  // load + a beat, so a WebGL world booting from black never shows the void
   frame.addEventListener('load', () => {
-    if (awake === el) img.style.display = 'none';
+    setTimeout(() => { if (awake === el) img.style.display = 'none'; }, 2500);
   });
   el.querySelector('.port').appendChild(frame);
   const chip = el.querySelector('.wake');
