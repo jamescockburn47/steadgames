@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Steads — three worlds drawn entirely by code</title>
+  <meta name="description" content="Three worlds drawn entirely by code — a moor, a sea, a planet. Moorstead, Saltstead and Marsstead: nothing to download, no ads." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='5' cy='11' r='4' fill='%239ec27a'/%3E%3Ccircle cx='11' cy='5' r='4' fill='%23d88a5a'/%3E%3Ccircle cx='11' cy='11' r='4' fill='%235aa7d8'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #0d1117; --panel: #131a23; --line: #233041; --ink: #cfd8dc;
+      --dim: #77879a; --gold: #e0b352;
+      --moor: #9ec27a; --salt: #5aa7d8; --mars: #d88a5a;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.5;
+      font-family: 'Segoe UI', system-ui, sans-serif; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 40px 22px 30px; }
+    header h1 { color: var(--gold); letter-spacing: 6px; font-size: 30px; margin: 0; }
+    .credo { color: var(--dim); font-style: italic; margin: 8px 0 0; font-size: 15px; }
+    .muster { color: var(--dim); font-size: 13px; margin-top: 14px; min-height: 18px; }
+    .muster b { color: var(--ink); }
+    .steads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 26px 0; }
+    @media (max-width: 900px) { .steads { grid-template-columns: 1fr; } }
+    .stead { background: var(--panel); border: 1px solid var(--line); border-radius: 12px;
+      overflow: hidden; display: flex; flex-direction: column; }
+    .stead .port { position: relative; aspect-ratio: 16 / 10; background: #000; }
+    .stead .port canvas, .stead .port iframe { position: absolute; inset: 0;
+      width: 100%; height: 100%; border: 0; display: block; }
+    .stead .port .wake { position: absolute; right: 10px; bottom: 8px; font-size: 11px;
+      color: rgba(255,255,255,.75); background: rgba(0,0,0,.45); padding: 2px 9px;
+      border-radius: 10px; pointer-events: none; }
+    .stead .body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .stead h2 { margin: 0; font-size: 17px; letter-spacing: 3px; }
+    .stead .tagline { font-style: italic; color: var(--dim); font-size: 13px; margin: 0; }
+    .stead p.sum { font-size: 13.5px; color: var(--ink); margin: 2px 0 6px; flex: 1; }
+    .stead a.play { display: inline-block; align-self: flex-start; text-decoration: none;
+      font-weight: 600; font-size: 14px; letter-spacing: 1px; padding: 8px 22px;
+      border-radius: 6px; border: 1px solid; }
+    #moor h2, #moor .play { color: var(--moor); border-color: var(--moor); }
+    #salt h2, #salt .play { color: var(--salt); border-color: var(--salt); }
+    #mars h2, #mars .play { color: var(--mars); border-color: var(--mars); }
+    .stead a.play:hover { background: rgba(255,255,255,.06); }
+    footer { border-top: 1px solid var(--line); padding-top: 18px; margin-top: 8px;
+      color: var(--dim); font-size: 13px; }
+    footer a { color: var(--ink); text-decoration: none; }
+    footer a:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>THE STEADS</h1>
+      <p class="credo">Three worlds drawn entirely by code &mdash; a moor, a sea, a planet.
+        Nothing to download, no ads, owned by nobody&rsquo;s art department.</p>
+      <div class="muster" id="muster"></div>
+    </header>
+
+    <div class="steads">
+      <div class="stead" id="moor" data-game="moorstead" data-url="https://www.moorstead.app">
+        <div class="port"><canvas></canvas><span class="wake">tap to wake</span></div>
+        <div class="body">
+          <h2>MOORSTEAD</h2>
+          <p class="tagline">t&rsquo; moor knows thy name</p>
+          <p class="sum">A voxel Yorkshire Moors sandbox &mdash; crofts, quarries, steam trains,
+            and villagers with minds of their own (a local AI gives every one a voice).
+            Build, farm, ride to Whitby, bring the family: kid-safe shared worlds by invite.
+            Drawn entirely by code.</p>
+          <a class="play" href="https://www.moorstead.app">PLAY</a>
+        </div>
+      </div>
+
+      <div class="stead" id="salt" data-game="saltstead" data-url="https://www.saltstead.app">
+        <div class="port"><canvas></canvas><span class="wake">tap to wake</span></div>
+        <div class="body">
+          <h2>SALTSTEAD</h2>
+          <p class="tagline">the sea never signed the treaty</p>
+          <p class="sum">A sea-rover sandbox on the real Earth &mdash; sail anywhere, under the
+            King&rsquo;s colours or the black flag. Storms, broadsides, legendary beasts,
+            and ports that remember you. Drawn entirely by code.</p>
+          <a class="play" href="https://www.saltstead.app">PLAY</a>
+        </div>
+      </div>
+
+      <div class="stead" id="mars" data-game="marsstead" data-url="https://www.marsstead.app">
+        <div class="port"><canvas></canvas><span class="wake">tap to wake</span></div>
+        <div class="body">
+          <h2>MARSSTEAD</h2>
+          <p class="tagline">the sand kept its secrets for four billion years</p>
+          <p class="sum">A survival homestead on the real Mars &mdash; true NASA terrain, thin
+            air, killing cold. Build your stead, mine the regolith, and go down after
+            what&rsquo;s waiting. VESPER, a live AI companion, is the only other voice out
+            here. Drawn entirely by code.</p>
+          <a class="play" href="https://www.marsstead.app">PLAY</a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      Three sibling games by one homestead, each procedural to the bone: real
+      geography, deterministic worlds, and not a single downloaded asset between them.
+      &mdash; <a href="https://www.moorstead.app">moorstead.app</a> &middot;
+      <a href="https://www.saltstead.app">saltstead.app</a> &middot;
+      <a href="https://www.marsstead.app">marsstead.app</a>
+    </footer>
+  </div>
+  <script type="module" src="/src/hub.js"></script>
+</body>
+</html>

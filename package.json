@@ -1,0 +1,10 @@
+{
+  "name": "steadgames",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The Steads family front — steadgames.com. Three worlds drawn entirely by code: Moorstead, Saltstead, Marsstead.",
+  "scripts": {
+    "verify": "node scripts/verify-hub.mjs"
+  }
+}
