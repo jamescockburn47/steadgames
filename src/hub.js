@@ -16,6 +16,11 @@ function sleep(el) {
   if (chip) chip.textContent = 'hover to visit';
 }
 
+function fit(el) {
+  const frame = el.querySelector('iframe');
+  if (frame) frame.style.transform = `scale(${el.querySelector('.port').clientWidth / 1280})`;
+}
+
 function wake(el) {
   if (!LIVE_PANELS || awake === el) return;
   if (awake) sleep(awake);
@@ -30,6 +35,7 @@ function wake(el) {
     setTimeout(() => { if (awake === el) img.style.display = 'none'; }, 2500);
   });
   el.querySelector('.port').appendChild(frame);
+  fit(el); // full desktop layout, scaled to the panel
   const chip = el.querySelector('.wake');
   if (chip) chip.textContent = 'live — PLAY to enter';
 }
@@ -38,12 +44,14 @@ for (const el of steads) {
   el.addEventListener('pointerenter', (e) => {
     if (e.pointerType === 'mouse') wake(el); // hover on desktop
   });
+  // the preview is a window, not a play surface: clicking it enters the game
+  // (on touch, the first tap wakes the preview instead)
   el.querySelector('.port').addEventListener('click', () => {
-    // touch (no hover): first tap wakes; a sleeping panel is always a door
     if (awake !== el && LIVE_PANELS && matchMedia('(hover: none)').matches) wake(el);
-    else if (awake !== el) window.location.href = el.dataset.url;
+    else window.location.href = el.dataset.url;
   });
 }
+window.addEventListener('resize', () => { if (awake) fit(awake); });
 
 // the muster strip — counts only, graceful absence until the doors open
 const MUSTER_DOORS = [

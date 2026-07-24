@@ -44,10 +44,16 @@
     .stead:hover { transform: translateY(-5px); border-color: var(--accent);
       box-shadow: 0 18px 42px -18px rgba(0,0,0,.85), 0 0 0 1px var(--accent) inset,
         0 0 34px -12px var(--accent); }
-    .stead .port { position: relative; aspect-ratio: 16 / 10; background: #000; cursor: pointer; }
-    .stead .port img, .stead .port iframe { position: absolute; inset: 0;
+    .stead .port { position: relative; aspect-ratio: 16 / 10; background: #000;
+      cursor: pointer; overflow: hidden; }
+    .stead .port img { position: absolute; inset: 0;
       width: 100%; height: 100%; border: 0; display: block; object-fit: cover;
       transition: transform .6s ease; }
+    /* the living preview: the game laid out at a full desktop viewport,
+       scaled to fit the panel — the whole landing, no scrolling, no cramping */
+    .stead .port iframe { position: absolute; top: 0; left: 0;
+      width: 1280px; height: 800px; border: 0; display: block;
+      transform-origin: 0 0; pointer-events: none; }
     .stead:hover .port img { transform: scale(1.04); }
     .stead .port .wake { position: absolute; right: 10px; bottom: 8px; font-size: 11px;
       letter-spacing: .1em; font-variant: small-caps; color: rgba(255,255,255,.85);
