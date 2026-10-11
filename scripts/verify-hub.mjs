@@ -1,5 +1,5 @@
 // verify-hub — the family front's headless gate: the copy is present, the
-// sibling links are right, and the three real screenshots exist and are
+// sibling links are right, and the four real screenshots exist and are
 // substantial. Screenshots are reshot with Marsstead's scripts/shoot-family.mjs.
 import { readFileSync, statSync } from 'node:fs';
 
@@ -9,30 +9,33 @@ const check = (name, cond) => { if (cond) { pass++; } else { fail++; console.err
 // ---- the page carries the words -------------------------------------------
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 check('title names the family', html.includes('The Steads'));
-check('credo: the seas (not a sea)', html.includes('a moor, the seas, a planet') && !html.includes('a moor, a sea,'));
-check('credo: AI characters', html.includes('AI characters you can talk to'));
+check('four worlds in collection', html.includes('Four worlds') && html.includes('Viking Northumbria'));
+check('AI characters attributed to original worlds', html.includes('AI characters in the original three worlds'));
+check('Havenstead planned campaign explicit', html.includes('Campaign is still in development; skirmishes have no saved progress'));
+check('Havenstead uses static preview', html.includes('data-preview="still"'));
 check('credo: free, no downloads, no ads', html.includes('Free, no downloads, no ads'));
 check('the art-department line is gone', !/art department/i.test(html));
 for (const [name, tagline] of [
   ['MOORSTEAD', 'moor knows thy name'],
   ['SALTSTEAD', 'the sea never signed the treaty'],
   ['MARSSTEAD', 'four billion years'],
+  ['HAVENSTEAD', 'a coast to contest'],
 ]) {
   check(`${name} panel + tagline`, html.includes(name) && html.includes(tagline));
 }
-for (const url of ['https://www.moorstead.app', 'https://www.saltstead.app', 'https://www.marsstead.app']) {
+for (const url of ['https://www.moorstead.app', 'https://www.saltstead.app', 'https://www.marsstead.app', 'https://havenstead.xyz/']) {
   check(`links ${url}`, html.split(url).length >= 3); // play button + footer at least
 }
-check('every panel has a PLAY door', (html.match(/class="play"/g) || []).length === 3);
+check('every panel has a PLAY door', (html.match(/class="play"/g) || []).length === 4);
 
 // ---- the real screenshots are in place -------------------------------------
-for (const game of ['moorstead', 'saltstead', 'marsstead']) {
+for (const game of ['moorstead', 'saltstead', 'marsstead', 'havenstead']) {
   check(`panel img wired: ${game}`, html.includes(`/shots/${game}.jpg`));
   let size = 0;
   try { size = statSync(new URL(`../shots/${game}.jpg`, import.meta.url)).size; } catch { /* missing */ }
   check(`shot exists + substantial: ${game}`, size > 20000);
 }
-check('every shot has alt text', (html.match(/<img [^>]*alt="/g) || []).length === 3);
+check('every shot has alt text', (html.match(/<img [^>]*alt="/g) || []).length === 4);
 
 console.log(`\nverify-hub: ${pass} passed, ${fail} failed`);
 process.exit(fail ? 1 : 0);

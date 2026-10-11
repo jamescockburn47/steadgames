@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>The Steads — three worlds drawn entirely by code</title>
-  <meta name="description" content="Three worlds drawn entirely by code — a moor, the seas, a planet — each alive with AI characters you can talk to. Moorstead, Saltstead and Marsstead: free, no downloads, no ads." />
+  <title>The Steads — four worlds drawn entirely by code</title>
+  <meta name="description" content="Four browser worlds drawn by code: Moorstead, Saltstead, Marsstead and Havenstead. Build, sail, explore and command a Viking band. Free, no downloads, no ads." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='5' cy='11' r='4' fill='%239ec27a'/%3E%3Ccircle cx='11' cy='5' r='4' fill='%23d88a5a'/%3E%3Ccircle cx='11' cy='11' r='4' fill='%235aa7d8'/%3E%3C/svg%3E" />
   <style>
     :root {
@@ -33,14 +33,14 @@
     .muster { color: var(--gold); font-size: 14px; letter-spacing: .08em;
       margin-top: 16px; min-height: 20px; font-variant: small-caps; }
     .muster b { font-size: 17px; }
-    .steads { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin: 34px 0 44px; }
-    @media (max-width: 1020px) { .steads { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; } }
+    .steads { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; margin: 34px 0 44px; }
+    @media (max-width: 760px) { .steads { grid-template-columns: 1fr; max-width: 640px; margin-inline: auto; } }
     .stead { background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
       overflow: hidden; display: flex; flex-direction: column; position: relative;
       transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease; }
     .stead::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px;
       background: var(--accent); opacity: .8; z-index: 2; }
-    #moor { --accent: var(--moor); } #salt { --accent: var(--salt); } #mars { --accent: var(--mars); }
+    #moor { --accent: var(--moor); } #salt { --accent: var(--salt); } #mars { --accent: var(--mars); } #haven { --accent: #c2b178; }
     .stead:hover { transform: translateY(-5px); border-color: var(--accent);
       box-shadow: 0 18px 42px -18px rgba(0,0,0,.85), 0 0 0 1px var(--accent) inset,
         0 0 34px -12px var(--accent); }
@@ -55,6 +55,7 @@
       width: 1280px; height: 800px; border: 0; display: block;
       transform-origin: 0 0; pointer-events: none; }
     .stead:hover .port img { transform: scale(1.04); }
+    #haven .port img { object-fit: contain; }
     .stead .port .wake { position: absolute; right: 10px; bottom: 8px; font-size: 11px;
       letter-spacing: .1em; font-variant: small-caps; color: rgba(255,255,255,.85);
       background: rgba(0,0,0,.5); padding: 3px 11px; border-radius: 10px;
@@ -83,8 +84,9 @@
     <header>
       <div class="rule"></div>
       <h1>THE STEADS</h1>
-      <p class="credo">Three worlds drawn entirely by code &mdash; a moor, the seas, a planet &mdash;
-        each alive with AI characters you can talk to. Free, no downloads, no ads.</p>
+      <p class="credo">Four worlds drawn by code &mdash; moorland, open seas, Mars and Viking Northumbria.
+        Build, sail, explore and command. Meet AI characters in the original three worlds;
+        lead a band in Havenstead’s playable War prototype. Free, no downloads, no ads.</p>
       <div class="muster" id="muster"></div>
     </header>
 
@@ -126,14 +128,26 @@
           <a class="play" href="https://www.marsstead.app">PLAY</a>
         </div>
       </div>
+      <div class="stead" id="haven" data-game="havenstead" data-url="https://havenstead.xyz/" data-preview="still">
+        <div class="port"><img src="/shots/havenstead.jpg" alt="Havenstead — a Viking band exploring the wooded Whitby coast in War mode" /><span class="wake">playable War prototype</span></div>
+        <div class="body">
+          <h2>HAVENSTEAD</h2>
+          <p class="tagline">a coast to contest, a community to grow</p>
+          <p class="sum">Command a Viking band around Whitby. Gather supplies, build a village,
+            contest rival halls and win their people’s loyalty. Play War solo against computer
+            clans or with other players. Campaign is still in development; skirmishes have no saved progress.</p>
+          <a class="play" href="https://havenstead.xyz/">PLAY</a>
+        </div>
+      </div>
     </div>
 
     <footer>
-      <div class="fam">Three sibling games by one homestead, each procedural to the bone &mdash;
+      <div class="fam">Four sibling games by James Cockburn &mdash;
         <a href="https://www.moorstead.app">moorstead.app</a> &middot;
         <a href="https://www.saltstead.app">saltstead.app</a> &middot;
-        <a href="https://www.marsstead.app">marsstead.app</a></div>
-      <div class="credit">Built by James Cockburn &middot;
+        <a href="https://www.marsstead.app">marsstead.app</a> &middot;
+        <a href="https://havenstead.xyz/">havenstead.xyz</a></div>
+      <div class="credit"><a href="https://www.jamescockburn.io/games">Why I build games</a> &middot;
         <a href="mailto:james.a.cockburn@gmail.com">james.a.cockburn@gmail.com</a></div>
     </footer>
   </div>

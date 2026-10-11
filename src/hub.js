@@ -22,7 +22,7 @@ function fit(el) {
 }
 
 function wake(el) {
-  if (!LIVE_PANELS || awake === el) return;
+  if (!LIVE_PANELS || el.dataset.preview === 'still' || awake === el) return;
   if (awake) sleep(awake);
   awake = el;
   const img = el.querySelector('img');
@@ -47,7 +47,7 @@ for (const el of steads) {
   // the preview is a window, not a play surface: clicking it enters the game
   // (on touch, the first tap wakes the preview instead)
   el.querySelector('.port').addEventListener('click', () => {
-    if (awake !== el && LIVE_PANELS && matchMedia('(hover: none)').matches) wake(el);
+    if (el.dataset.preview !== 'still' && awake !== el && LIVE_PANELS && matchMedia('(hover: none)').matches) wake(el);
     else window.location.href = el.dataset.url;
   });
 }
@@ -67,7 +67,7 @@ const MUSTER_DOORS = [
     const week = all.reduce((s, d) => s + ((d && d.week) || 0), 0);
     if (week > 0) {
       document.getElementById('muster').innerHTML =
-        '<b>' + week + '</b> settlers across the steads this week';
+        '<b>' + week + '</b> settlers across Moorstead, Saltstead and Marsstead this week';
     }
   } catch { /* the strip simply stays quiet */ }
 })();
